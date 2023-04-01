@@ -32,11 +32,13 @@ public class MazeSolver {
         MazeCell currentCell = maze.getEndCell();
         MazeCell firstCell = maze.getStartCell();
         Stack<MazeCell> reverseOrder = new Stack<MazeCell>();
+        // Continues moving backwards until it reaches the first cell
         while (!currentCell.equals(firstCell)) {
             reverseOrder.push(currentCell);
             currentCell = currentCell.getParent();
         }
         ArrayList<MazeCell> order = new ArrayList<MazeCell>();
+        // Reverses the order of the initial trace
         while (!reverseOrder.empty()) {
             order.add(reverseOrder.pop());
         }
@@ -57,6 +59,8 @@ public class MazeSolver {
         while (!currentCell.equals(endCell)) {
             int currentRow = currentCell.getRow();
             int currentCol = currentCell.getCol();
+            // Adds all possible cells to the explore stack
+            // After adding, it sets the parent value to the current cell
             if (maze.isValidCell(currentRow - 1, currentCol)) {
                 explore.add(maze.getCell(currentRow - 1, currentCol));
                 maze.getCell(currentRow - 1, currentCol).setExplored(true);
@@ -77,6 +81,7 @@ public class MazeSolver {
                 maze.getCell(currentRow, currentCol - 1).setExplored(true);
                 maze.getCell(currentRow, currentCol - 1).setParent(currentCell);
             }
+            // After adding all possible cells, currentCell is set to the top element in explore.
             currentCell = explore.pop();
         }
         return getSolution();
@@ -95,6 +100,8 @@ public class MazeSolver {
         while (!currentCell.equals(endCell)) {
             int currentRow = currentCell.getRow();
             int currentCol = currentCell.getCol();
+            // This code opperates in the same way as the DFS code, but instead of adding
+            // to a stack, it adds the next cells to a queue.
             if (maze.isValidCell(currentRow - 1, currentCol)) {
                 explore.add(maze.getCell(currentRow - 1, currentCol));
                 maze.getCell(currentRow - 1, currentCol).setExplored(true);
@@ -137,7 +144,6 @@ public class MazeSolver {
 
         // Solve the maze using BFS and print the solution
         sol = ms.solveMazeBFS();
-        System.out.println("\n\n\n\n\n\n\n\n\n\n");
         maze.printSolution(sol);
     }
 }
